@@ -9,11 +9,13 @@ package id2212.hw1.client;
  * @author alfredo
  */
 public class ConnectionPanel extends javax.swing.JPanel {
-
+    private Session session;
+    
     /**
      * Creates new form ConnectionPanel
      */
-    public ConnectionPanel() {
+    public ConnectionPanel(Session s) {
+        this.session=s;
         initComponents();
     }
 
@@ -29,7 +31,6 @@ public class ConnectionPanel extends javax.swing.JPanel {
         connectButton = new javax.swing.JButton();
         ipTextField = new javax.swing.JTextField();
         portTextField = new javax.swing.JTextField();
-        statusLabel = new javax.swing.JLabel();
 
         connectButton.setText("Connect");
         connectButton.addActionListener(new java.awt.event.ActionListener() {
@@ -38,16 +39,19 @@ public class ConnectionPanel extends javax.swing.JPanel {
             }
         });
 
-        ipTextField.setText("ip address");
+        ipTextField.setText("localhost");
+        ipTextField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ipTextFieldActionPerformed(evt);
+            }
+        });
 
-        portTextField.setText("port number");
+        portTextField.setText("10");
         portTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 portTextFieldActionPerformed(evt);
             }
         });
-
-        statusLabel.setText("Not connected");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -55,17 +59,12 @@ public class ConnectionPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(45, 45, 45)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(statusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(ipTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(portTextField))
-                        .addGap(68, 68, 68))))
+                .addComponent(ipTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(portTextField))
+                .addGap(68, 68, 68))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -76,9 +75,7 @@ public class ConnectionPanel extends javax.swing.JPanel {
                     .addComponent(portTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(49, 49, 49)
                 .addComponent(connectButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
-                .addComponent(statusLabel)
-                .addGap(49, 49, 49))
+                .addContainerGap(124, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -86,19 +83,23 @@ public class ConnectionPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_portTextFieldActionPerformed
 
+  
     private void connectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_connectButtonActionPerformed
         
         String ip=this.ipTextField.getText();
         String port=this.portTextField.getText();
-        Connecter c=new Connecter(ip, port);
-        c.start();
+        session.connect(ip, port);
+        
         
     }//GEN-LAST:event_connectButtonActionPerformed
+
+    private void ipTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ipTextFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ipTextFieldActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton connectButton;
     private javax.swing.JTextField ipTextField;
     private javax.swing.JTextField portTextField;
-    private javax.swing.JLabel statusLabel;
     // End of variables declaration//GEN-END:variables
 }

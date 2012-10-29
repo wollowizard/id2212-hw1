@@ -10,7 +10,10 @@ package id2212.hw1.client;
  */
 public class Client {
     public static void main(String args[]){
-        HangmanFrame f=new HangmanFrame();
+        Session session=new Session();
+        HangmanFrame f=new HangmanFrame(session);
+        session.addObserver(f);
+        
         f.setVisible(true);
     }
     

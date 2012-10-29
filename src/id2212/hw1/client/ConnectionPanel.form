@@ -18,21 +18,13 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Component id="statusLabel" min="-2" pref="107" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" attributes="0">
-                      <Component id="ipTextField" min="-2" pref="92" max="-2" attributes="0"/>
-                      <EmptySpace pref="122" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="connectButton" max="32767" attributes="0"/>
-                          <Component id="portTextField" max="32767" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
-                  </Group>
+              <Component id="ipTextField" min="-2" pref="92" max="-2" attributes="0"/>
+              <EmptySpace pref="122" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="connectButton" max="32767" attributes="0"/>
+                  <Component id="portTextField" max="32767" attributes="0"/>
               </Group>
+              <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -46,9 +38,7 @@
               </Group>
               <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
               <Component id="connectButton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="61" max="32767" attributes="0"/>
-              <Component id="statusLabel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="49" max="-2" attributes="0"/>
+              <EmptySpace pref="124" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -64,21 +54,19 @@
     </Component>
     <Component class="javax.swing.JTextField" name="ipTextField">
       <Properties>
-        <Property name="text" type="java.lang.String" value="ip address"/>
+        <Property name="text" type="java.lang.String" value="localhost"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ipTextFieldActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="portTextField">
       <Properties>
-        <Property name="text" type="java.lang.String" value="port number"/>
+        <Property name="text" type="java.lang.String" value="10"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="portTextFieldActionPerformed"/>
       </Events>
-    </Component>
-    <Component class="javax.swing.JLabel" name="statusLabel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Not connected"/>
-      </Properties>
     </Component>
   </SubComponents>
 </Form>

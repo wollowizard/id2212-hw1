@@ -15,20 +15,19 @@ import java.util.Observable;
 public class Session extends Observable{
     private Socket clientSocket = null;
     
-    private static Session instance=null;
+    
     private ResponsePacket lastPacketReceived;
     
-    private Session(){
+    private Boolean connected;
+    
+    public Session(){
+        
     };
     
-    public static Session getInstance(){
-        if(instance==null){
-            instance=new Session();
-        }
-        return instance;
-    }
+    
     
     public void setClientSocket(Socket s){
+        setChanged();
         this.clientSocket=s;
     }
     
@@ -38,6 +37,27 @@ public class Session extends Observable{
 
     void setLastPacket(ResponsePacket packet) {
         this.lastPacketReceived=packet;
+    }
+
+    Boolean isConnected() {
+        return this.connected;
+    }
+    
+    public void connect(String ip, String port){
+        Connector c=new Connector(ip, Integer.parseInt(port), this);
+        c.start();
+    
+    }
+    public void connectionOk(){
+        this.connected=true;
+        setChanged();
+        notifyObservers(Event.CONNECTIONOK);
+    }
+    
+    public void connectionRefused(){
+        this.connected=false;
+        setChanged();
+        notifyObservers(Event.CONNECTIONREFUSED);
     }
     
     
