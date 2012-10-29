@@ -24,7 +24,7 @@ public abstract class DataPacket implements Serializable {
         return startGame;
     }
 
-    public Boolean getSuggestLetterMode() {
+    public Boolean isSuggestLetterMode() {
         
         return suggestLetterMode;
     }
@@ -33,7 +33,7 @@ public abstract class DataPacket implements Serializable {
         return letter;
     }
 
-    public Boolean getGuessWordMode() {
+    public Boolean isGuessWordMode() {
         return guessWordMode;
     }
 
