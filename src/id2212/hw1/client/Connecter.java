@@ -31,6 +31,7 @@ public class Connecter extends Thread{
             Socket clientSocket = new Socket(ip, port);
             Session.getInstance().setClientSocket(clientSocket);
             
+            
         } catch (UnknownHostException ex) {
             Logger.getLogger(Connecter.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
