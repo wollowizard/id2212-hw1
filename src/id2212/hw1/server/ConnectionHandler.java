@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package id2212.hw1;
+package id2212.hw1.server;
 
+import id2212.hw1.packets.DataPacket;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
