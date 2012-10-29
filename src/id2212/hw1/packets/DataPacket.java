@@ -10,7 +10,7 @@ import java.io.Serializable;
  *
  * @author Marcel
  */
-public abstract class DataPacket extends Packet  {
+public class DataPacket extends Packet  {
        
     private Boolean startGame=false;
     
@@ -50,7 +50,7 @@ public abstract class DataPacket extends Packet  {
     }
     
     public void suggestLetter(String l) throws Exception{
-        if(letter.length()!=1){
+        if(l.length()!=1){
             throw new Exception("Length must be one");
         }
         this.letter=l;

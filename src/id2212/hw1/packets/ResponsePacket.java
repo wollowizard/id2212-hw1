@@ -16,9 +16,12 @@ public class ResponsePacket extends Packet {
     private String word;
     private Integer totalScore;
     
+    
     private Boolean gameMode=false;
     private String currentWordView;
     private Integer failedAttemptsCounter;
+        
+    
     
     private Boolean gameOverMode=false;
 

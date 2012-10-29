@@ -71,7 +71,7 @@ public class ConnectionHandler extends Thread {
                 in.close();
                 socket.close();
             } catch (IOException e) {
-                System.out.println("Error while closing the conection");
+                System.out.println("Error while closing the connection");
                 e.printStackTrace();
             }
         } catch (IOException e) {
@@ -83,7 +83,11 @@ public class ConnectionHandler extends Thread {
     }
     
     private ResponsePacket startNewGame() throws FileNotFoundException, IOException {
+       
         FileInputStream fs= new FileInputStream("files/dictionary.txt");
+      
+        
+        
         BufferedReader br = new BufferedReader(new InputStreamReader(fs));
         ResponsePacket data = new ResponsePacket();
         Random r = new Random();
@@ -92,6 +96,7 @@ public class ConnectionHandler extends Thread {
             br.readLine();
         }
         selectedWord = br.readLine();
+        System.out.println("Word:" + selectedWord);
         String numDash = "";
         for (int i = 0; i < selectedWord.length(); ++i) {
             if (i!=0) numDash+=" ";

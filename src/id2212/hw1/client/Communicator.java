@@ -26,12 +26,14 @@ import java.util.logging.Logger;
 public class Communicator extends Thread {
 
     private Packet packet;
+    private Session session;
 
-    public Communicator(Packet p) {
+    public Communicator(Packet p, Session s) {
+        this.session=s;
         this.packet = p;
     }
 
-    /*public void run() {
+    public void run() {
         Socket socket = session.getClientSocket();
         ObjectOutputStream out;
         ObjectInputStream in;
@@ -39,9 +41,14 @@ public class Communicator extends Thread {
         try {
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
+            out.writeObject(this.packet);
+            out.flush();
+            
             try {
                 reply= (ResponsePacket) in.readObject();
-                session.setLastPacket(reply);
+                
+                System.out.println(reply.getCurrentWordView());
+                session.manageResponsePacket(reply);
                 
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(Communicator.class.getName()).log(Level.SEVERE, null, ex);
@@ -55,5 +62,5 @@ public class Communicator extends Thread {
 	
        
 
-    }*/
+    }
 }

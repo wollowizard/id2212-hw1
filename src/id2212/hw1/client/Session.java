@@ -4,6 +4,7 @@
  */
 package id2212.hw1.client;
 
+import id2212.hw1.packets.DataPacket;
 import id2212.hw1.packets.ResponsePacket;
 import java.net.Socket;
 import java.util.Observable;
@@ -14,9 +15,11 @@ import java.util.Observable;
  */
 public class Session extends Observable{
     private Socket clientSocket = null;
+    private String wordView;
+    private Integer counter;
+    private ResponsePacket lastReply;
     
     
-    private ResponsePacket lastPacketReceived;
     
     private Boolean connected;
     
@@ -35,9 +38,15 @@ public class Session extends Observable{
         return this.clientSocket;
     }
 
-    void setLastPacket(ResponsePacket packet) {
-        this.lastPacketReceived=packet;
+    public String getWordView() {
+        return wordView;
     }
+
+    public Integer getCounter() {
+        return counter;
+    }
+
+
 
     Boolean isConnected() {
         return this.connected;
@@ -48,10 +57,23 @@ public class Session extends Observable{
         c.start();
     
     }
+    
+    public void send(DataPacket p){
+        Communicator c=new Communicator(p, this);
+        c.start();
+    
+    }
+    
     public void connectionOk(){
         this.connected=true;
         setChanged();
         notifyObservers(Event.CONNECTIONOK);
+        DataPacket dp=new DataPacket();
+        
+        dp.setStartGame();
+        Communicator c=new Communicator(dp, this);
+        c.start();
+        
     }
     
     public void connectionRefused(){
@@ -59,6 +81,34 @@ public class Session extends Observable{
         setChanged();
         notifyObservers(Event.CONNECTIONREFUSED);
     }
+    
+    public ResponsePacket getLastReply(){
+        return this.lastReply;
+    }
+    
+    
+
+    public void manageResponsePacket(ResponsePacket reply) {
+        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaabbbxxx");
+        System.out.println(reply.isGameMode());
+        
+        this.lastReply=reply;
+        
+        if(reply.isGameMode()){
+            this.play(reply);
+        }
+        
+    }
+    
+    public void play(ResponsePacket reply){
+        this.wordView=reply.getCurrentWordView();
+        this.counter=reply.getFailedAttemptsCounter();
+        
+        setChanged();
+        notifyObservers(Event.GAMERESPONSE);
+    }
+    
+    
     
     
     

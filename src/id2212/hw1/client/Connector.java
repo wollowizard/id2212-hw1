@@ -4,7 +4,9 @@
  */
 package id2212.hw1.client;
 
+import id2212.hw1.packets.ResponsePacket;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
@@ -34,7 +36,6 @@ public class Connector extends Thread{
             Socket sock=new Socket(ip, port);
             sess.setClientSocket(sock);
             sess.connectionOk();
-            
         } catch (UnknownHostException ex) {
             
             sess.connectionRefused();

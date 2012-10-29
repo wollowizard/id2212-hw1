@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
 public class HangmanFrame extends javax.swing.JFrame implements Observer {
 
     
-    private javax.swing.JPanel panel=null;
+    private GenericPanel panel=null;
     private Session session;
     /**
      * Creates new form HangmanFrame
@@ -77,7 +77,7 @@ public class HangmanFrame extends javax.swing.JFrame implements Observer {
     
      public void showMainPanel(){
         
-        panel= new MainPanel();
+        panel= new MainPanel(session);
         this.setContentPane(panel);
         this.validate();
     }
@@ -96,6 +96,11 @@ public class HangmanFrame extends javax.swing.JFrame implements Observer {
         if(newEvent==Event.CONNECTIONREFUSED){
             this.showConnectionPanel();
             JOptionPane.showMessageDialog(this, "CONNECTION NOT ESTABLISHED");
+            System.out.println("CONNECTION NOT ESTABLISHED");
+        }
+        
+        if(newEvent==Event.GAMERESPONSE){
+            this.panel.updateView(newEvent);
             System.out.println("CONNECTION NOT ESTABLISHED");
         }
         

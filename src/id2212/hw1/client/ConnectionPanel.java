@@ -8,7 +8,7 @@ package id2212.hw1.client;
  *
  * @author alfredo
  */
-public class ConnectionPanel extends javax.swing.JPanel {
+public class ConnectionPanel extends GenericPanel {
     private Session session;
     
     /**
@@ -88,6 +88,7 @@ public class ConnectionPanel extends javax.swing.JPanel {
         
         String ip=this.ipTextField.getText();
         String port=this.portTextField.getText();
+        
         session.connect(ip, port);
         
         
@@ -102,4 +103,9 @@ public class ConnectionPanel extends javax.swing.JPanel {
     private javax.swing.JTextField ipTextField;
     private javax.swing.JTextField portTextField;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void updateView(Event e) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

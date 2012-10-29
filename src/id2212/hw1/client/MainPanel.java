@@ -4,16 +4,23 @@
  */
 package id2212.hw1.client;
 
+import id2212.hw1.packets.DataPacket;
+import id2212.hw1.packets.ResponsePacket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author alfredo
  */
-public class MainPanel extends javax.swing.JPanel {
+public class MainPanel extends GenericPanel {
+    private Session session;
 
     /**
      * Creates new form MainPanel
      */
-    public MainPanel() {
+    public MainPanel(Session s) {
+        this.session=s;
         initComponents();
     }
 
@@ -29,8 +36,9 @@ public class MainPanel extends javax.swing.JPanel {
         currentWordLabel = new javax.swing.JLabel();
         letterTextField = new javax.swing.JTextField();
         sendLetterButton = new javax.swing.JButton();
+        counterLabel = new javax.swing.JLabel();
 
-        currentWordLabel.setText("---------");
+        currentWordLabel.setText("____________");
 
         letterTextField.setText("letter");
 
@@ -41,18 +49,28 @@ public class MainPanel extends javax.swing.JPanel {
             }
         });
 
+        counterLabel.setText("-----");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(currentWordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(78, 78, 78)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(sendLetterButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(letterTextField))
-                .addContainerGap(121, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(sendLetterButton))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGap(47, 47, 47)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(counterLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(currentWordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                                .addComponent(letterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(63, 63, 63))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -61,21 +79,45 @@ public class MainPanel extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(currentWordLabel)
                     .addComponent(letterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(73, 73, 73)
+                .addGap(40, 40, 40)
+                .addComponent(counterLabel)
+                .addGap(18, 18, 18)
                 .addComponent(sendLetterButton)
-                .addContainerGap(149, Short.MAX_VALUE))
+                .addContainerGap(150, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void sendLetterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendLetterButtonActionPerformed
         // TODO add your handling code here:
+        DataPacket dp=new DataPacket();
+        try {
+            dp.suggestLetter(this.letterTextField.getText());
+            session.send(dp);
+        } catch (Exception ex) {
+            Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         
         
     }//GEN-LAST:event_sendLetterButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel counterLabel;
     private javax.swing.JLabel currentWordLabel;
     private javax.swing.JTextField letterTextField;
     private javax.swing.JButton sendLetterButton;
     // End of variables declaration//GEN-END:variables
+
+
+    @Override
+    public void updateView(Event e) {
+        
+        if(e==Event.GAMERESPONSE){
+            ResponsePacket lastReply = session.getLastReply();
+            this.currentWordLabel.setText(lastReply.getCurrentWordView());
+            this.counterLabel.setText(session.getLastReply().getFailedAttemptsCounter().toString());
+            
+        }
+        
+    }
 }

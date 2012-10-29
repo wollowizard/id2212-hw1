@@ -8,6 +8,8 @@ package id2212.hw1.client;
  *
  * @author alfredo
  */
-public enum Event {
-    CONNECTIONOK,CONNECTIONREFUSED
-,   GAMERESPONSE}
+public abstract class GenericPanel  extends javax.swing.JPanel{
+    
+    public abstract void updateView(Event e);
+    
+}
