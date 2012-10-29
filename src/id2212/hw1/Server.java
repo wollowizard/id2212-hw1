@@ -19,31 +19,16 @@ public class Server {
     public static void main(String[] args) throws IOException {
         boolean listening = true;
         ServerSocket serverSocket = null;
-
         try {
-                serverSocket = new ServerSocket(4444);
+                serverSocket = new ServerSocket(1234);
         } catch (IOException e) {
-                System.err.println("Could not listen on port: 4444.");
+                System.err.println("Could not listen on port: 1234.");
                 System.exit(1);
         }
         while(listening) {
-            Socket clientSocket = serverSocket.accept();
-            ConnectionHandlr c = new ConnectionHandler(clientSocket);
-            c.start();
+                Socket clientSocket = serverSocket.accept();
+                (new ConnectionHandler(clientSocket)).start();
         }
         serverSocket.close();
     }
-    
-    private class ConnectionHandler extends Thread {
-        private Socket socket;
-        
-        public ConnectionHandler(Socket s) {
-            this.socket = s;
-        }
-        
-        public void run() {
-            
-        }
-    }
-    
 }
