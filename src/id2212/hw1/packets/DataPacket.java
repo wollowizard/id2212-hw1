@@ -10,7 +10,7 @@ import java.io.Serializable;
  *
  * @author Marcel
  */
-public abstract class DataPacket implements Serializable {
+public abstract class DataPacket extends Packet  {
        
     private Boolean startGame=false;
     

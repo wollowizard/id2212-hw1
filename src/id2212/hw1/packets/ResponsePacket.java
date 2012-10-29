@@ -10,7 +10,7 @@ import java.io.Serializable;
  *
  * @author alfredo
  */
-public class ResponsePacket implements Serializable{
+public class ResponsePacket extends Packet {
     
     private Boolean congratulationsMode=false;
     private String word;
