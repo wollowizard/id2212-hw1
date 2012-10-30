@@ -6,6 +6,8 @@ package id2212.hw1.client;
 
 import id2212.hw1.packets.DataPacket;
 import id2212.hw1.packets.ResponsePacket;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Observable;
 
@@ -15,6 +17,9 @@ import java.util.Observable;
  */
 public class Session extends Observable{
     private Socket clientSocket = null;
+    ObjectOutputStream out;
+    ObjectInputStream in;
+    
     private String wordView;
     private Integer counter;
     private ResponsePacket lastReply;
@@ -37,6 +42,23 @@ public class Session extends Observable{
     public Socket getClientSocket(){
         return this.clientSocket;
     }
+
+    public ObjectOutputStream getOut() {
+        return out;
+    }
+
+    public ObjectInputStream getIn() {
+        return in;
+    }
+
+    public void setOut(ObjectOutputStream out) {
+        this.out = out;
+    }
+
+    public void setIn(ObjectInputStream in) {
+        this.in = in;
+    }
+    
 
     public String getWordView() {
         return wordView;
@@ -89,8 +111,8 @@ public class Session extends Observable{
     
 
     public void manageResponsePacket(ResponsePacket reply) {
-        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaabbbxxx");
-        System.out.println(reply.isGameMode());
+        
+        
         
         this.lastReply=reply;
         

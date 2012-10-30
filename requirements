@@ -1,0 +1,19 @@
+•Client-Server interaction using TCP
+–Client side:
+•Host and port of a server should be command line arguments
+•Do not bind a client socket to a fixed local port number
+•Do not forget to flush the socket output stream when sending a request
+•Remember that read from a socket input stream is blocking
+•Should set timeout for a socket and properly handle exceptions
+•Take into account long communication latency: User interface should be responsive, use multithreading: a thread for the user interface, a thread for the network interface.
+•A Client may create and listen a server socket (e.g. for callbacks). It should do this in a separate “server” thread
+
+
+Client Server interaction using TCP
+–Server side:
+•A server port should be a command line argument
+•A server should be scalable, i.e. it should be able to handle multiple requests simultaneously by using multithreading
+•Two approaches to multithreading:
+–(1) create a new thread for each client connected;
+–(2) assign a thread to a client from a pool of threads
+•While communicating with a client, do not forget to set timeout to a TCP socket, and flush output stream when needed

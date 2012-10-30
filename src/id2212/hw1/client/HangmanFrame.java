@@ -101,7 +101,7 @@ public class HangmanFrame extends javax.swing.JFrame implements Observer {
         
         if(newEvent==Event.GAMERESPONSE){
             this.panel.updateView(newEvent);
-            System.out.println("CONNECTION NOT ESTABLISHED");
+            
         }
         
        

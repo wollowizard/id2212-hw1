@@ -6,8 +6,6 @@ package id2212.hw1.server;
 
 import id2212.hw1.packets.DataPacket;
 import id2212.hw1.packets.ResponsePacket;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -24,32 +22,35 @@ import java.util.Random;
  */
 public class ConnectionHandler extends Thread {
     private Socket socket;
+    ObjectInputStream in;
+    ObjectOutputStream out;
+        
     private boolean running;
     private static final int NUM_WORD_DIC = 50;
     String selectedWord;
 
-    public ConnectionHandler(Socket s) {
-        this.socket = s;
+    public ConnectionHandler(ClientData cd) {
+        this.socket = cd.getSocket();
+        this.in=cd.getIn();
+        this.out=cd.getOut();
         this.running = true;
     }
 
     public void run() {
-        ObjectInputStream in;
-	ObjectOutputStream out;
-        try {
-            in = new ObjectInputStream(socket.getInputStream());
-            out = new ObjectOutputStream(socket.getOutputStream());
-        } catch (IOException e) {
-            System.out.println("Error while opening the steams");
-            System.out.println(e.toString());
-            return;
-        }
+        
+        
         try {
             DataPacket recvData;
             ResponsePacket sendData= new ResponsePacket();
             while (running) {
+                System.out.println("waiting for receiving");
+                
                 recvData = (DataPacket) in.readObject();
+                
+                System.out.println("received");
+                
                 if (recvData.isStartGame()) {
+                    System.out.println("new");
                     sendData=startNewGame();
                 }
                 else if (recvData.isSuggestLetterMode()) {
@@ -59,6 +60,8 @@ public class ConnectionHandler extends Thread {
                     sendData=checkWord(recvData.getWord());
                 }
                 out.writeObject(sendData);
+                System.out.println("sent");
+                
                 if (out != null) {
                     out.flush();
                 }

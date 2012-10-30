@@ -35,19 +35,20 @@ public class Communicator extends Thread {
 
     public void run() {
         Socket socket = session.getClientSocket();
-        ObjectOutputStream out;
-        ObjectInputStream in;
+        ObjectOutputStream out=session.getOut();
+        ObjectInputStream in=session.getIn();
+        
         ResponsePacket reply;
         try {
-            out = new ObjectOutputStream(socket.getOutputStream());
-            in = new ObjectInputStream(socket.getInputStream());
+            
             out.writeObject(this.packet);
             out.flush();
             
             try {
                 reply= (ResponsePacket) in.readObject();
+                System.out.println("Received" + reply.getCurrentWordView() + reply.getWord());
                 
-                System.out.println(reply.getCurrentWordView());
+                
                 session.manageResponsePacket(reply);
                 
             } catch (ClassNotFoundException ex) {
