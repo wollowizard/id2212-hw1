@@ -49,7 +49,7 @@ public class DataPacket extends Packet  {
         this.guessWordMode=false;
     }
     
-    public void suggestLetter(String l) throws Exception{
+    public void setLetterToSuggest(String l) throws Exception{
         if(l.length()!=1){
             throw new Exception("Length must be one");
         }

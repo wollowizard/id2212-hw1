@@ -2,7 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package id2212.hw1.client;
+package id2212.hw1.client.view;
+
+import id2212.hw1.client.EventEnum;
+import id2212.hw1.client.Session;
+import id2212.hw1.client.view.GenericPanel;
 
 /**
  *
@@ -89,7 +93,7 @@ public class ConnectionPanel extends GenericPanel {
         String ip=this.ipTextField.getText();
         String port=this.portTextField.getText();
         
-        session.connect(ip, port);
+        session.initiateSession(ip, port);
         
         
     }//GEN-LAST:event_connectButtonActionPerformed
@@ -105,7 +109,7 @@ public class ConnectionPanel extends GenericPanel {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void updateView(Event e) {
+    public void updateView(EventEnum e) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

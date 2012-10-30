@@ -8,6 +8,6 @@ package id2212.hw1.client;
  *
  * @author alfredo
  */
-public enum Event {
-    CONNECTIONOK,CONNECTIONREFUSED
-,   GAMERESPONSE}
+public enum EventEnum {
+    CONNECTIONOK,CONNECTIONREFUSED,GAMERESPONSE
+}

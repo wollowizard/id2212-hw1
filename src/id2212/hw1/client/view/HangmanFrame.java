@@ -2,8 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package id2212.hw1.client;
+package id2212.hw1.client.view;
 
+import id2212.hw1.client.EventEnum;
+import id2212.hw1.client.view.GenericPanel;
+import id2212.hw1.client.Session;
+import id2212.hw1.client.view.MainPanel;
 import java.awt.Container;
 import java.util.Observable;
 import java.util.Observer;
@@ -86,20 +90,21 @@ public class HangmanFrame extends javax.swing.JFrame implements Observer {
     
     @Override
     public void update(Observable o, Object arg) {
-                 
-        Session s=(Session)o;
-        Event newEvent=(Event)arg;
-        if(newEvent==Event.CONNECTIONOK){
+           
+        EventEnum newEvent=(EventEnum)arg;
+        if(newEvent==EventEnum.CONNECTIONOK){
             this.showMainPanel();
             System.out.println("CONNECTION ESTABLISHED");
         }
-        if(newEvent==Event.CONNECTIONREFUSED){
+        
+        
+        if(newEvent==EventEnum.CONNECTIONREFUSED){
             this.showConnectionPanel();
             JOptionPane.showMessageDialog(this, "CONNECTION NOT ESTABLISHED");
             System.out.println("CONNECTION NOT ESTABLISHED");
         }
         
-        if(newEvent==Event.GAMERESPONSE){
+        if(newEvent==EventEnum.GAMERESPONSE){
             this.panel.updateView(newEvent);
             
         }

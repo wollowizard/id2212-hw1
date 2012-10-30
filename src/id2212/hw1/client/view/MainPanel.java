@@ -2,12 +2,17 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package id2212.hw1.client;
+package id2212.hw1.client.view;
 
+import id2212.hw1.client.EventEnum;
+import id2212.hw1.client.EventEnum;
+import id2212.hw1.client.Session;
+import id2212.hw1.client.Session;
 import id2212.hw1.packets.DataPacket;
 import id2212.hw1.packets.ResponsePacket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -88,16 +93,14 @@ public class MainPanel extends GenericPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void sendLetterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendLetterButtonActionPerformed
-        // TODO add your handling code here:
-        DataPacket dp=new DataPacket();
         try {
-            dp.suggestLetter(this.letterTextField.getText());
-            session.send(dp);
+            // TODO add your handling code here:
+
+            session.getCurrentMatch().guessALetter(this.letterTextField.getText());
         } catch (Exception ex) {
-            Logger.getLogger(MainPanel.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Please insert one letter only");
         }
-        
-        
+    
         
     }//GEN-LAST:event_sendLetterButtonActionPerformed
 
@@ -110,12 +113,12 @@ public class MainPanel extends GenericPanel {
 
 
     @Override
-    public void updateView(Event e) {
+    public void updateView(EventEnum e) {
         
-        if(e==Event.GAMERESPONSE){
-            ResponsePacket lastReply = session.getLastReply();
+        if(e==EventEnum.GAMERESPONSE){
+            ResponsePacket lastReply = session.getCurrentMatch().getLastReply();
             this.currentWordLabel.setText(lastReply.getCurrentWordView());
-            this.counterLabel.setText(session.getLastReply().getFailedAttemptsCounter().toString());
+            this.counterLabel.setText(session.getCurrentMatch().getLastReply().getFailedAttemptsCounter().toString());
             
         }
         
