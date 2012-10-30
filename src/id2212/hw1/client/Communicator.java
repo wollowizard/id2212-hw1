@@ -29,39 +29,45 @@ public class Communicator extends Thread {
     private Session session;
 
     public Communicator(Packet p, Session s) {
-        this.session=s;
+        this.session = s;
         this.packet = p;
     }
 
     public void run() {
+      
         Socket socket = session.getClientSocket();
-        ObjectOutputStream out=session.getOut();
-        ObjectInputStream in=session.getIn();
-        
+        ObjectOutputStream out = session.getOut();
+        ObjectInputStream in = session.getIn();
+
         ResponsePacket reply;
+        
+       
         try {
-            
+
             out.writeObject(this.packet);
             out.flush();
+
+            reply = (ResponsePacket) in.readObject();
+            System.out.println("Received" + reply.getCurrentWordView() + reply.getWord());
+
+            session.setLastReply(reply);
             
-            try {
-                reply= (ResponsePacket) in.readObject();
-                System.out.println("Received" + reply.getCurrentWordView() + reply.getWord());
-                
-                
-                session.manageResponsePacket(reply);
-                
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(Communicator.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            session.manageResponsePacket(reply);
             
+            
+
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Communicator.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(Communicator.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            
         }
-        
-        
-	
-       
+
+
+
+
 
     }
 }

@@ -10,6 +10,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Observable;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  *
@@ -19,11 +22,17 @@ public class Session extends Observable{
     private Socket clientSocket = null;
     ObjectOutputStream out;
     ObjectInputStream in;
+    final Lock lock = new ReentrantLock();
+    final Condition packetReceived  = lock.newCondition(); 
+    
     
     private String wordView;
     private Integer counter;
     private ResponsePacket lastReply;
-    
+
+    public void setLastReply(ResponsePacket lastReply) {
+        this.lastReply = lastReply;
+    }
     
     
     private Boolean connected;
@@ -75,26 +84,30 @@ public class Session extends Observable{
     }
     
     public void connect(String ip, String port){
+        
         Connector c=new Connector(ip, Integer.parseInt(port), this);
         c.start();
-    
+     
+       
     }
     
     public void send(DataPacket p){
+        
         Communicator c=new Communicator(p, this);
         c.start();
+        
     
     }
     
     public void connectionOk(){
-        this.connected=true;
+        
         setChanged();
         notifyObservers(Event.CONNECTIONOK);
-        DataPacket dp=new DataPacket();
         
+        DataPacket dp=new DataPacket();
         dp.setStartGame();
-        Communicator c=new Communicator(dp, this);
-        c.start();
+        
+        send(dp);
         
     }
     
@@ -112,13 +125,12 @@ public class Session extends Observable{
 
     public void manageResponsePacket(ResponsePacket reply) {
         
-        
-        
         this.lastReply=reply;
         
         if(reply.isGameMode()){
             this.play(reply);
         }
+       
         
     }
     
@@ -129,10 +141,10 @@ public class Session extends Observable{
         setChanged();
         notifyObservers(Event.GAMERESPONSE);
     }
-    
-    
-    
-    
+
+    void setConnected(boolean b) {
+        this.connected=b;
+    }
     
     
 }

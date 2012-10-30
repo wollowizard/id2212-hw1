@@ -34,20 +34,26 @@ public class Connector extends Thread{
         
         
         try {
+           
             Socket sock=new Socket(ip, port);
             sess.setClientSocket(sock);
             sess.setIn(new ObjectInputStream(sock.getInputStream()));
             sess.setOut(new ObjectOutputStream(sock.getOutputStream()));
-            
+            sess.setConnected(true);
             sess.connectionOk();
             
             
         } catch (UnknownHostException ex) {
             
+            sess.setConnected(false);
             sess.connectionRefused();
         } catch (IOException ex) {
-            
+            sess.setConnected(false);
             sess.connectionRefused();
+            
+        }
+        finally{
+            
         }
     }
     

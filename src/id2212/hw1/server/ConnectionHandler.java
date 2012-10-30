@@ -124,7 +124,7 @@ public class ConnectionHandler extends Thread {
                 tmp+="_";
             }
         }
-        
+        data.setGameMode(tmp, 0);
         return data;
     }
     
