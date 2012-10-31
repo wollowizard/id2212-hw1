@@ -92,15 +92,20 @@ public class Match extends Observable {
         } else if (reply.isGameOverMode()) {
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
-                    notifyObservers(EventEnum.GAMERESPONSE);
-                    
-                    
+                    notifyObservers(EventEnum.GAMEOVER);
+
                 }
             });
             
         
         }
         else if(reply.isCongratulationsMode()){
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    notifyObservers(EventEnum.CONGRATULATIONS);
+
+                }
+            });
         
         }
     }
