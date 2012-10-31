@@ -101,16 +101,18 @@ public class HangmanFrame extends javax.swing.JFrame implements Observer {
             
             if (result == JOptionPane.YES_OPTION) {
                 
-                session.closeSession();
+                //session.closeSession();
                 
                 Match newMatch = new Match();
-                Session session = new Session(newMatch);
-                newMatch.setSession(session);
-                this.session = session;
+               // Session session = new Session(newMatch);
+                session.setMatch(newMatch);
                 
-                session.addObserver(this);
+                newMatch.setSession(session);
+                //this.session = session;
+                
+                //session.addObserver(this);
                 newMatch.addObserver(this);
-                this.showConnectionPanel();
+                this.showMainPanel();
             }
         }
         

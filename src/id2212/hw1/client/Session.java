@@ -82,6 +82,10 @@ public class Session extends Observable {
     public void setConnected(boolean b) {
         this.connected = b;
     }
+    
+    public void setMatch(Match m){
+        this.currentMatch=m;
+    }
 
     public Boolean isConnected() {
         return this.connected;

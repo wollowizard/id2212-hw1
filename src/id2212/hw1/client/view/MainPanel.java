@@ -71,7 +71,7 @@ public class MainPanel extends GenericPanel {
 
         totalScoreLabel.setText("0");
 
-        jLabel3.setText("Failed attempts:");
+        jLabel3.setText("Remaining attempts:");
 
         jLabel4.setText("letter:");
 
