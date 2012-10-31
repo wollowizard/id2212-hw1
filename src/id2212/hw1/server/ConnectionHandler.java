@@ -100,14 +100,14 @@ public class ConnectionHandler extends Thread {
         for(int i = 0; i < n; ++i) {
             br.readLine();
         }
-        selectedWord = br.readLine();
+        selectedWord = br.readLine().toLowerCase();
         System.out.println("Word:" + selectedWord);
         hiddenWord = "";
         for (int i = 0; i < selectedWord.length(); ++i) {
             hiddenWord+="_";
         }
         this.intents=this.NUM_TRY;
-        data.setGameMode(addSpaces(hiddenWord), this.intents);
+        data.setGameMode(addSpaces(hiddenWord), this.intents,this.totalScore);
         return data;
     }
     
@@ -137,7 +137,7 @@ public class ConnectionHandler extends Thread {
         if (isCorrect) {
             System.out.println("Number of intents "+this.intents);
             if (this.hiddenWord.contains("_"))
-                data.setGameMode(addSpaces(this.hiddenWord), this.intents);
+                data.setGameMode(addSpaces(this.hiddenWord), this.intents,this.totalScore);
             else 
                 data.setCongratulation(this.selectedWord, (this.totalScore++));
         }
@@ -146,7 +146,7 @@ public class ConnectionHandler extends Thread {
             if (this.intents<=0) 
                 data.setGameOverMode();
             else 
-                data.setGameMode(addSpaces(this.hiddenWord), this.intents);
+                data.setGameMode(addSpaces(this.hiddenWord), this.intents,this.totalScore);
         }
         return data;
     }
@@ -161,7 +161,7 @@ public class ConnectionHandler extends Thread {
             if (this.intents<=0) 
                 data.setGameOverMode();
             else 
-                data.setGameMode(addSpaces(this.hiddenWord), (this.intents));
+                data.setGameMode(addSpaces(this.hiddenWord), (this.intents),this.totalScore);
         } 
         return data;
     }

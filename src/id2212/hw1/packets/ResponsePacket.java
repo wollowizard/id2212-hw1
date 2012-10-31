@@ -60,9 +60,10 @@ public class ResponsePacket extends Packet {
         
     }
     
-    public void setGameMode(String currentView, Integer attempts){
+    public void setGameMode(String currentView, Integer attempts,Integer total){
         this.currentWordView=currentView;
         this.failedAttemptsCounter=attempts;
+        this.totalScore=total;
         
         this.congratulationsMode=false;
         this.gameOverMode=false;
