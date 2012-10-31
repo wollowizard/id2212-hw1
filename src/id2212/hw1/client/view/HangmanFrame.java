@@ -9,6 +9,7 @@ import id2212.hw1.client.Match;
 import id2212.hw1.client.view.GenericPanel;
 import id2212.hw1.client.Session;
 import id2212.hw1.client.view.MainPanel;
+import java.awt.Component;
 import java.awt.Container;
 import java.util.Observable;
 import java.util.Observer;
@@ -154,17 +155,38 @@ public class HangmanFrame extends javax.swing.JFrame implements Observer {
         }
         
         
-        if (newEvent == EventEnum.CONNECTIONREFUSED) {
+        else if (newEvent == EventEnum.CONNECTIONREFUSED) {
             this.showConnectionPanel();
             JOptionPane.showMessageDialog(this, "CONNECTION NOT ESTABLISHED");
             System.out.println("CONNECTION NOT ESTABLISHED");
         }
         
-        if (newEvent == EventEnum.GAMERESPONSE) {
+        else if (newEvent == EventEnum.GAMERESPONSE) {
             this.panel.updateView(newEvent);
+            this.pack();
+        }
+        
+        else  if (newEvent == EventEnum.GAMEOVER) {
+            this.panel.updateView(newEvent); 
+            this.disablePanel();
+            JOptionPane.showMessageDialog(this, "YOU LOSE!");
+            System.out.println("YOU LOSE!");
+            
+        }
+        else  if (newEvent == EventEnum.CONGRATULATIONS) {
+            this.panel.updateView(newEvent);
+            this.disablePanel();
+            JOptionPane.showMessageDialog(this, "YOU WIN!");
+            System.out.println("YOU WIN!");
             
         }
         
-        
+    }
+    
+    public void disablePanel(){
+        Component[] components=this.panel.getComponents();
+            for(Component c : components){
+                c.setEnabled(false);
+            }
     }
 }

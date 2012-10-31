@@ -13,6 +13,7 @@ import java.net.Socket;
 import java.util.Observable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -24,7 +25,7 @@ public class Session extends Observable {
     ObjectOutputStream out;
     ObjectInputStream in;
     Match currentMatch;
-    private Boolean connected=false;
+    private Boolean connected = false;
 
     public Session(Match g) {
         this.currentMatch = g;
@@ -61,8 +62,6 @@ public class Session extends Observable {
         this.in = in;
     }
 
-    
-
     public void initiateSession(String ip, String port) {
 
         Connector c = new Connector(ip, Integer.parseInt(port), this);
@@ -85,16 +84,20 @@ public class Session extends Observable {
     public void setConnected(boolean b) {
         this.connected = b;
     }
-    
+
     public Boolean isConnected() {
         return this.connected;
     }
-   
 
     public void connectionOk() {
 
         setChanged();
-        notifyObservers(EventEnum.CONNECTIONOK);
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                notifyObservers(EventEnum.CONNECTIONOK);
+            }
+        });
+
         currentMatch.startGame();
 
     }
@@ -102,6 +105,14 @@ public class Session extends Observable {
     public void connectionRefused() {
         this.connected = false;
         setChanged();
-        notifyObservers(EventEnum.CONNECTIONREFUSED);
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                // Here, we can safely update the GUI
+                // because we'll be called from the
+                // event dispatch thread
+                notifyObservers(EventEnum.CONNECTIONREFUSED);
+            }
+        });
+
     }
 }

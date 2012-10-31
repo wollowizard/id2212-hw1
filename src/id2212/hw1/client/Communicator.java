@@ -28,7 +28,7 @@ public class Communicator extends Thread {
     }
 
     public void run() {
-      
+        System.out.println("Communicator: "+Thread.currentThread());
         Socket socket = session.getClientSocket();
         ObjectOutputStream out = session.getOut();
         ObjectInputStream in = session.getIn();
@@ -42,7 +42,7 @@ public class Communicator extends Thread {
             out.flush();
 
             reply = (ResponsePacket) in.readObject();
-            System.out.println("Received" + reply.getCurrentWordView() + reply.getWord());
+            System.out.println("Received" + reply.getCurrentWordView() + reply.getCurrentWordView());
 
             session.getCurrentMatch().setLastReply(reply);
             
@@ -58,10 +58,5 @@ public class Communicator extends Thread {
         }finally{
             
         }
-
-
-
-
-
     }
 }

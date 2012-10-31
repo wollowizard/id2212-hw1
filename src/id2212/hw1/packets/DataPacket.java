@@ -60,7 +60,7 @@ public class DataPacket extends Packet  {
         this.guessWordMode=false;
     }
     
-      public void guessWord(String w) throws Exception{
+      public void guessWord(String w){
  
         this.word=w;
         this.startGame=false;

@@ -13,13 +13,13 @@ import java.io.Serializable;
 public class ResponsePacket extends Packet {
     
     private Boolean congratulationsMode=false;
-    private String word;
-    private Integer totalScore;
+    private Integer totalScore=-1;
+    
     
     
     private Boolean gameMode=false;
-    private String currentWordView;
-    private Integer failedAttemptsCounter;
+    private String currentWordView="not set";
+    private Integer failedAttemptsCounter=-1;
         
     
     
@@ -29,9 +29,7 @@ public class ResponsePacket extends Packet {
         return congratulationsMode;
     }
 
-    public String getWord() {
-        return word;
-    }
+   
 
     public Integer getTotalScore() {
         return totalScore;
@@ -56,7 +54,7 @@ public class ResponsePacket extends Packet {
     
     
     public void setCongratulation(String w , Integer score){
-        this.word=w;
+        this.currentWordView=w;
         this.totalScore=score;
         this.congratulationsMode=true;
         this.gameOverMode=false;
