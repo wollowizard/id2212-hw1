@@ -5,13 +5,9 @@
 package id2212.hw1.client.view;
 
 import id2212.hw1.client.EventEnum;
-import id2212.hw1.client.EventEnum;
 import id2212.hw1.client.Session;
-import id2212.hw1.client.Session;
-import id2212.hw1.packets.DataPacket;
 import id2212.hw1.packets.ResponsePacket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 /**
@@ -40,59 +36,116 @@ public class MainPanel extends GenericPanel {
 
         currentWordLabel = new javax.swing.JLabel();
         letterTextField = new javax.swing.JTextField();
-        sendLetterButton = new javax.swing.JButton();
+        guessLetterButton = new javax.swing.JButton();
         counterLabel = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        totalScoreLabel = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        errorLabel = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        guessWordTextField = new javax.swing.JTextField();
+        guessWordButton = new javax.swing.JButton();
 
         currentWordLabel.setText("____________");
 
-        letterTextField.setText("letter");
-
-        sendLetterButton.setText("send letter");
-        sendLetterButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sendLetterButtonActionPerformed(evt);
+        letterTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                letterTextFieldKeyPressed(evt);
             }
         });
 
-        counterLabel.setText("-----");
+        guessLetterButton.setText("Guess letter");
+        guessLetterButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guessLetterButtonActionPerformed(evt);
+            }
+        });
+
+        counterLabel.setText("0");
+
+        jLabel1.setText("Total score: ");
+
+        totalScoreLabel.setText("0");
+
+        jLabel3.setText("Failed attempts:");
+
+        jLabel4.setText("letter:");
+
+        jLabel2.setText("Guess word:");
+
+        guessWordButton.setText("Guess word");
+        guessWordButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                guessWordButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(sendLetterButton))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                        .addGap(47, 47, 47)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(73, 73, 73)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(counterLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
+                            .addComponent(counterLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(totalScoreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(11, 11, 11))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(183, 183, 183)
+                        .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(guessWordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(currentWordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
-                                .addComponent(letterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(63, 63, 63))
+                                .addGap(46, 46, 46)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(letterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(guessLetterButton)
+                            .addComponent(guessWordButton)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(34, 34, 34)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(currentWordLabel)
-                    .addComponent(letterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(40, 40, 40)
-                .addComponent(counterLabel)
-                .addGap(18, 18, 18)
-                .addComponent(sendLetterButton)
-                .addContainerGap(150, Short.MAX_VALUE))
+                    .addComponent(letterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(guessLetterButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(guessWordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(guessWordButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 63, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(counterLabel)
+                    .addComponent(jLabel3))
+                .addGap(42, 42, 42)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(totalScoreLabel))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void sendLetterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendLetterButtonActionPerformed
+    private void guessLetterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guessLetterButtonActionPerformed
         try {
             // TODO add your handling code here:
 
@@ -100,26 +153,55 @@ public class MainPanel extends GenericPanel {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Please insert one letter only");
         }
-    
+ 
+    }//GEN-LAST:event_guessLetterButtonActionPerformed
+
+    private void letterTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_letterTextFieldKeyPressed
+        char keyChar = evt.getKeyChar();
+        String s=String.valueOf(keyChar);
+        Pattern p = Pattern.compile("^[A-Za-z]$");
+        if(p.matcher(s).matches()){
+            errorLabel.setText("");
+            letterTextField.setText("");
+        }
+        else{
+            letterTextField.setText("");
+            errorLabel.setText("1 alpha only");
+        }
         
-    }//GEN-LAST:event_sendLetterButtonActionPerformed
+    }//GEN-LAST:event_letterTextFieldKeyPressed
+
+    private void guessWordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guessWordButtonActionPerformed
+        // TODO add your handling code here:
+        
+        session.getCurrentMatch().guessWord(this.guessWordTextField.getText());
+        
+    }//GEN-LAST:event_guessWordButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel counterLabel;
     private javax.swing.JLabel currentWordLabel;
+    private javax.swing.JLabel errorLabel;
+    private javax.swing.JButton guessLetterButton;
+    private javax.swing.JButton guessWordButton;
+    private javax.swing.JTextField guessWordTextField;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JTextField letterTextField;
-    private javax.swing.JButton sendLetterButton;
+    private javax.swing.JLabel totalScoreLabel;
     // End of variables declaration//GEN-END:variables
 
 
     @Override
     public void updateView(EventEnum e) {
-        
+        System.out.println("update view: " + Thread.currentThread());
         if(e==EventEnum.GAMERESPONSE){
             ResponsePacket lastReply = session.getCurrentMatch().getLastReply();
             this.currentWordLabel.setText(lastReply.getCurrentWordView());
             this.counterLabel.setText(session.getCurrentMatch().getLastReply().getFailedAttemptsCounter().toString());
-            
+            this.totalScoreLabel.setText(session.getCurrentMatch().getLastReply().getTotalScore().toString());
         }
         
     }
