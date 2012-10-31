@@ -4,8 +4,6 @@
  */
 package id2212.hw1.packets;
 
-import java.io.Serializable;
-
 /**
  *
  * @author Marcel

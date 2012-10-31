@@ -7,7 +7,6 @@ package id2212.hw1.client;
 import id2212.hw1.packets.DataPacket;
 import id2212.hw1.packets.ResponsePacket;
 import java.util.Observable;
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 /**
@@ -60,7 +59,7 @@ public class Match extends Observable {
         sendPacket(dp);
     }
 
-    public void guessALetter(String l) throws Exception {
+    public void guessALetter(String l) throws Exception{
         DataPacket dp = new DataPacket();
 
         dp.setLetterToSuggest(l);
@@ -84,6 +83,7 @@ public class Match extends Observable {
         if (reply.isGameMode()) {
         
             SwingUtilities.invokeLater(new Runnable() {
+                @Override
                 public void run() {
                     notifyObservers(EventEnum.GAMERESPONSE);
                 }
@@ -91,6 +91,7 @@ public class Match extends Observable {
 
         } else if (reply.isGameOverMode()) {
             SwingUtilities.invokeLater(new Runnable() {
+                @Override
                 public void run() {
                     notifyObservers(EventEnum.GAMEOVER);
 
@@ -101,6 +102,7 @@ public class Match extends Observable {
         }
         else if(reply.isCongratulationsMode()){
             SwingUtilities.invokeLater(new Runnable() {
+                @Override
                 public void run() {
                     notifyObservers(EventEnum.CONGRATULATIONS);
 

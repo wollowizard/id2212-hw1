@@ -4,8 +4,6 @@
  */
 package id2212.hw1.client;
 
-import id2212.hw1.packets.DataPacket;
-import id2212.hw1.packets.ResponsePacket;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
