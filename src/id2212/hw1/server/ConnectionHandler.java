@@ -104,34 +104,54 @@ public class ConnectionHandler extends Thread {
         for (int i = 0; i < selectedWord.length(); ++i) {
             hiddenWord+="_";
         }
-        data.setGameMode(hiddenWord, (intents=this.NUM_TRY));
+        this.intents=this.NUM_TRY;
+        data.setGameMode(addSpaces(hiddenWord), this.intents);
         return data;
     }
     
+    private String addSpaces(String s) {
+        String tmp = "";
+        for (int i = 0; i < s.length(); ++i) {
+            if (i!=0) tmp+=" ";
+            tmp+=s.charAt(i);
+        }
+        return tmp;
+    }
+    
     private ResponsePacket checkLetter(String l) {
+        System.out.println("We recived letter "+l);
         ResponsePacket data = new ResponsePacket();
         boolean isCorrect = false;
         StringBuilder tmp = new StringBuilder(hiddenWord);
         for (int i = 0; i < this.selectedWord.length();++i) {
-            if (tmp.charAt(i)==l.charAt(0)) {
+            if (this.selectedWord.charAt(i)==l.charAt(0)) {
                 tmp.setCharAt(i, l.charAt(0));
                 isCorrect = true;
             }
         }
-        if (isCorrect)
-            data.setGameMode((this.hiddenWord=tmp.toString()), 0);
+        this.hiddenWord=tmp.toString();
+        System.out.println("Server found letter="+isCorrect);
+        System.out.println("Sending "+addSpaces(this.hiddenWord));
+        if (isCorrect) {
+            System.out.println("Number of intents "+this.intents);
+            if (this.hiddenWord.contains("_"))
+                data.setGameMode(addSpaces(this.hiddenWord), this.intents);
+            else 
+                data.setCongratulation(this.selectedWord, this.intents);
+        }
         else {
             this.intents--;
             if (this.intents<=0) 
                 data.setGameOverMode();
             else 
-                data.setGameMode(this.hiddenWord, (this.intents--));
+                data.setGameMode(addSpaces(this.hiddenWord), this.intents);
         }
         return data;
     }
     
     private ResponsePacket checkWord(String w) {
         ResponsePacket data = new ResponsePacket();
+        System.out.println("Server recived word "+w);
         if (this.selectedWord.equals(w))
             data.setCongratulation(w, this.intents);
         else {
@@ -139,7 +159,7 @@ public class ConnectionHandler extends Thread {
             if (this.intents<=0) 
                 data.setGameOverMode();
             else 
-                data.setGameMode(this.hiddenWord, (this.intents--));
+                data.setGameMode(addSpaces(this.hiddenWord), (this.intents));
         } 
         return data;
     }
