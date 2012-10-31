@@ -28,7 +28,7 @@ public class Communicator extends Thread {
     }
 
     public void run() {
-        System.out.println("Communicator: "+Thread.currentThread());
+        
         Socket socket = session.getClientSocket();
         ObjectOutputStream out = session.getOut();
         ObjectInputStream in = session.getIn();
@@ -47,13 +47,8 @@ public class Communicator extends Thread {
             session.getCurrentMatch().setLastReply(reply);
             
             session.getCurrentMatch().manageResponsePacket(reply);
-            
-            
-
-
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Communicator.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+          
+        } catch (ClassNotFoundException | IOException ex) {
             Logger.getLogger(Communicator.class.getName()).log(Level.SEVERE, null, ex);
         }finally{
             

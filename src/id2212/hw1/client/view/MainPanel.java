@@ -16,6 +16,9 @@ import javax.swing.JOptionPane;
  */
 public class MainPanel extends GenericPanel {
     private Session session;
+    private static final String LETTERERRORMESSAGE="Please insert one letter only";
+    private static final String PATTERN="^[A-Za-z]$";
+    
 
     /**
      * Creates new form MainPanel
@@ -89,27 +92,28 @@ public class MainPanel extends GenericPanel {
                 .addGap(37, 37, 37)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(currentWordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(46, 46, 46)
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(letterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(guessWordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                    .addComponent(currentWordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(46, 46, 46)
-                                    .addComponent(jLabel4)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(letterTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(counterLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(guessWordTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(totalScoreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(counterLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(guessLetterButton)
-                            .addComponent(guessWordButton)
-                            .addComponent(totalScoreLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(guessWordButton)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(223, 223, 223)
                         .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -149,7 +153,7 @@ public class MainPanel extends GenericPanel {
 
             session.getCurrentMatch().guessALetter(this.letterTextField.getText());
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Please insert one letter only");
+            JOptionPane.showMessageDialog(this, LETTERERRORMESSAGE);
         }
  
     }//GEN-LAST:event_guessLetterButtonActionPerformed
@@ -157,14 +161,14 @@ public class MainPanel extends GenericPanel {
     private void letterTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_letterTextFieldKeyPressed
         char keyChar = evt.getKeyChar();
         String s=String.valueOf(keyChar);
-        Pattern p = Pattern.compile("^[A-Za-z]$");
+        Pattern p = Pattern.compile(PATTERN);
         if(p.matcher(s).matches()){
             errorLabel.setText("");
             letterTextField.setText("");
         }
         else{
             letterTextField.setText("");
-            errorLabel.setText("1 alpha only");
+            errorLabel.setText(LETTERERRORMESSAGE);
         }
         
     }//GEN-LAST:event_letterTextFieldKeyPressed
@@ -194,7 +198,7 @@ public class MainPanel extends GenericPanel {
 
     @Override
     public void updateView(EventEnum e) {
-        System.out.println("update view: " + Thread.currentThread());
+        
         if(e==EventEnum.GAMERESPONSE){
             ResponsePacket lastReply = session.getCurrentMatch().getLastReply();
             this.currentWordLabel.setText(lastReply.getCurrentWordView());

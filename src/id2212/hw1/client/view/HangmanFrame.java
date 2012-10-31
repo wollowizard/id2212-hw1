@@ -6,11 +6,8 @@ package id2212.hw1.client.view;
 
 import id2212.hw1.client.EventEnum;
 import id2212.hw1.client.Match;
-import id2212.hw1.client.view.GenericPanel;
 import id2212.hw1.client.Session;
-import id2212.hw1.client.view.MainPanel;
 import java.awt.Component;
-import java.awt.Container;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JOptionPane;
@@ -23,6 +20,13 @@ public class HangmanFrame extends javax.swing.JFrame implements Observer {
     
     private GenericPanel panel = null;
     private Session session;
+    private static final String TITLE="Hangman1.0 beta";
+    private static final String NEWMATCHMESSAGE="Do you really want to start a new match?";
+    private static final String NEWMATCHMESSAGETITLE="New match";
+    private static final String WINMESSAGE="YOU WIN!";
+    private static final String LOSEMESSAGE="YOU LOSE!";
+    private static final String CONNECTIONESTABLISHEDMESSAGE="CONNECTION ESTABLISHED";
+    private static final String CONNECTIONNOTESTABLISHEDMESSAGE="CONNECTION NOT ESTABLISHED";
 
     /**
      * Creates new form HangmanFrame
@@ -30,6 +34,7 @@ public class HangmanFrame extends javax.swing.JFrame implements Observer {
     public HangmanFrame(Session session) {
         
         initComponents();
+        this.setTitle(TITLE);
         this.session = session;
         this.showConnectionPanel();
         
@@ -91,7 +96,7 @@ public class HangmanFrame extends javax.swing.JFrame implements Observer {
         // TODO add your handling code here:
         
         if (this.session.isConnected()) {
-            int result = JOptionPane.showConfirmDialog(this, "Do you really want to start a new match?", "aa", JOptionPane.YES_NO_OPTION);
+            int result = JOptionPane.showConfirmDialog(this, NEWMATCHMESSAGE, NEWMATCHMESSAGETITLE, JOptionPane.YES_NO_OPTION);
             
             
             if (result == JOptionPane.YES_OPTION) {
@@ -151,14 +156,14 @@ public class HangmanFrame extends javax.swing.JFrame implements Observer {
         EventEnum newEvent = (EventEnum) arg;
         if (newEvent == EventEnum.CONNECTIONOK) {
             this.showMainPanel();
-            System.out.println("CONNECTION ESTABLISHED");
+            System.out.println(CONNECTIONESTABLISHEDMESSAGE);
         }
         
         
         else if (newEvent == EventEnum.CONNECTIONREFUSED) {
             this.showConnectionPanel();
-            JOptionPane.showMessageDialog(this, "CONNECTION NOT ESTABLISHED");
-            System.out.println("CONNECTION NOT ESTABLISHED");
+            JOptionPane.showMessageDialog(this, CONNECTIONNOTESTABLISHEDMESSAGE);
+            System.out.println(CONNECTIONNOTESTABLISHEDMESSAGE);
         }
         
         else if (newEvent == EventEnum.GAMERESPONSE) {
@@ -169,15 +174,15 @@ public class HangmanFrame extends javax.swing.JFrame implements Observer {
         else  if (newEvent == EventEnum.GAMEOVER) {
             this.panel.updateView(newEvent); 
             this.disablePanel();
-            JOptionPane.showMessageDialog(this, "YOU LOSE!");
-            System.out.println("YOU LOSE!");
+            JOptionPane.showMessageDialog(this, LOSEMESSAGE);
+            System.out.println(LOSEMESSAGE);
             
         }
         else  if (newEvent == EventEnum.CONGRATULATIONS) {
             this.panel.updateView(newEvent);
             this.disablePanel();
-            JOptionPane.showMessageDialog(this, "YOU WIN!");
-            System.out.println("YOU WIN!");
+            JOptionPane.showMessageDialog(this, WINMESSAGE);
+            System.out.println(WINMESSAGE);
             
         }
         
