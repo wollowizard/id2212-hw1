@@ -110,12 +110,19 @@ public class Match extends Observable {
             });
         
         }
+        
     }
 
     public void sendPacket(DataPacket p) {
 
         Communicator c = new Communicator(p, session);
         c.start();
+    }
+
+    void notifyServerDown() {
+        setChanged();
+        notifyObservers(EventEnum.SERVERDOWN);
+        
     }
 
    

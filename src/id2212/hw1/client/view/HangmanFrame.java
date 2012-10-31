@@ -27,6 +27,7 @@ public class HangmanFrame extends javax.swing.JFrame implements Observer {
     private static final String LOSEMESSAGE="YOU LOSE!";
     private static final String CONNECTIONESTABLISHEDMESSAGE="CONNECTION ESTABLISHED";
     private static final String CONNECTIONNOTESTABLISHEDMESSAGE="CONNECTION NOT ESTABLISHED";
+    private static final String SERVERDOWNMESSAGE="SERVER IS DOWN. TRY AGAIN LATER";
 
     /**
      * Creates new form HangmanFrame
@@ -188,7 +189,17 @@ public class HangmanFrame extends javax.swing.JFrame implements Observer {
             System.out.println(WINMESSAGE);
             
         }
+        else if (newEvent == EventEnum.SERVERDOWN) {
+            this.serverDown();
+        }
         
+    }
+    
+    public void serverDown(){
+        System.out.println(SERVERDOWNMESSAGE);
+            JOptionPane.showMessageDialog(this, SERVERDOWNMESSAGE);
+            this.showConnectionPanel();
+    
     }
     
     public void disablePanel(){

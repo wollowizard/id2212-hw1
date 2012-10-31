@@ -48,8 +48,14 @@ public class Communicator extends Thread {
             
             session.getCurrentMatch().manageResponsePacket(reply);
           
-        } catch (ClassNotFoundException | IOException ex) {
+        } catch(ClassNotFoundException ex ){
             Logger.getLogger(Communicator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            catch (IOException ex) {
+            System.out.println("here");
+            
+            session.getCurrentMatch().notifyServerDown();
+        
         }finally{
             
         }
