@@ -162,7 +162,8 @@ public class HangmanFrame extends javax.swing.JFrame implements Observer {
         }
         
         else if (newEvent == EventEnum.GAMERESPONSE) {
-            this.panel.updateView(newEvent);  
+            this.panel.updateView(newEvent);
+            this.pack();
         }
         
         else  if (newEvent == EventEnum.GAMEOVER) {
