@@ -27,7 +27,10 @@ public class ConnectionHandler extends Thread {
         
     private boolean running;
     private static final int NUM_WORD_DIC = 50;
+    private static final int NUM_TRY = 5;
     String selectedWord;
+    String hiddenWord;
+    int intents;
 
     public ConnectionHandler(ClientData cd) {
         this.socket = cd.getSocket();
@@ -38,7 +41,7 @@ public class ConnectionHandler extends Thread {
 
     public void run() {
         
-        
+       
         try {
             DataPacket recvData;
             ResponsePacket sendData= new ResponsePacket();
@@ -87,10 +90,7 @@ public class ConnectionHandler extends Thread {
     
     private ResponsePacket startNewGame() throws FileNotFoundException, IOException {
        
-        FileInputStream fs= new FileInputStream("files/dictionary.txt");
-      
-        
-        
+        FileInputStream fs= new FileInputStream("files/dictionary.txt");    
         BufferedReader br = new BufferedReader(new InputStreamReader(fs));
         ResponsePacket data = new ResponsePacket();
         Random r = new Random();
@@ -100,36 +100,47 @@ public class ConnectionHandler extends Thread {
         }
         selectedWord = br.readLine();
         System.out.println("Word:" + selectedWord);
-        String numDash = "";
+        hiddenWord = "";
         for (int i = 0; i < selectedWord.length(); ++i) {
-            if (i!=0) numDash+=" ";
-            numDash+="_";
+            hiddenWord+="_";
         }
-        data.setGameMode(numDash, 0);
+        data.setGameMode(hiddenWord, (intents=this.NUM_TRY));
         return data;
     }
     
     private ResponsePacket checkLetter(String l) {
         ResponsePacket data = new ResponsePacket();
         boolean isCorrect = false;
-        String tmp = "";
+        StringBuilder tmp = new StringBuilder(hiddenWord);
         for (int i = 0; i < this.selectedWord.length();++i) {
-            if (this.selectedWord.charAt(i) == l.charAt(0)) {
+            if (tmp.charAt(i)==l.charAt(0)) {
+                tmp.setCharAt(i, l.charAt(0));
                 isCorrect = true;
-                if (i!=0) tmp+=" ";
-                tmp+=l.charAt(0);
-            }
-            else {
-                if (i!=0) tmp+=" ";
-                tmp+="_";
             }
         }
-        data.setGameMode(tmp, 0);
+        if (isCorrect)
+            data.setGameMode((this.hiddenWord=tmp.toString()), 0);
+        else {
+            this.intents--;
+            if (this.intents<=0) 
+                data.setGameOverMode();
+            else 
+                data.setGameMode(this.hiddenWord, (this.intents--));
+        }
         return data;
     }
     
     private ResponsePacket checkWord(String w) {
         ResponsePacket data = new ResponsePacket();
+        if (this.selectedWord.equals(w))
+            data.setCongratulation(w, this.intents);
+        else {
+            this.intents--;
+            if (this.intents<=0) 
+                data.setGameOverMode();
+            else 
+                data.setGameMode(this.hiddenWord, (this.intents--));
+        } 
         return data;
     }
 }
