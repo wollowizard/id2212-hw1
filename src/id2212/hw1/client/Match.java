@@ -52,7 +52,7 @@ public class Match extends Observable {
         this.lastReply = lastReply;
     }
 
-    void startGame() {
+    public void startGame() {
 
         DataPacket dp = new DataPacket();
         dp.setStartGame();

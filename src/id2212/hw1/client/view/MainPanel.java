@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 public class MainPanel extends GenericPanel {
     private Session session;
     private static final String LETTERERRORMESSAGE="Please insert one letter only";
-    private static final String PATTERN="^[A-Za-z]$";
+    private static final String PATTERN="^[A-Za-z0-9]$";
     
 
     /**
@@ -150,8 +150,8 @@ public class MainPanel extends GenericPanel {
     private void guessLetterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guessLetterButtonActionPerformed
         try {
             // TODO add your handling code here:
-
-            session.getCurrentMatch().guessALetter(this.letterTextField.getText());
+            
+            session.getCurrentMatch().guessALetter(this.letterTextField.getText().toLowerCase());
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, LETTERERRORMESSAGE);
         }
@@ -176,7 +176,7 @@ public class MainPanel extends GenericPanel {
     private void guessWordButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guessWordButtonActionPerformed
         // TODO add your handling code here:
         
-        session.getCurrentMatch().guessWord(this.guessWordTextField.getText());
+        session.getCurrentMatch().guessWord(this.guessWordTextField.getText().toLowerCase());
         
     }//GEN-LAST:event_guessWordButtonActionPerformed
 

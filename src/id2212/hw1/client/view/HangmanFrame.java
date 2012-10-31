@@ -112,6 +112,7 @@ public class HangmanFrame extends javax.swing.JFrame implements Observer {
                 
                 //session.addObserver(this);
                 newMatch.addObserver(this);
+                session.getCurrentMatch().startGame();
                 this.showMainPanel();
             }
         }
