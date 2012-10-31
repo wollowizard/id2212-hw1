@@ -26,6 +26,7 @@ public class ConnectionHandler extends Thread {
     ObjectOutputStream out;
         
     private boolean running;
+    private int totalScore;
     private static final int NUM_WORD_DIC = 50;
     private static final int NUM_TRY = 5;
     String selectedWord;
@@ -37,6 +38,7 @@ public class ConnectionHandler extends Thread {
         this.in=cd.getIn();
         this.out=cd.getOut();
         this.running = true;
+        this.totalScore = 0;
     }
 
     public void run() {
@@ -137,7 +139,7 @@ public class ConnectionHandler extends Thread {
             if (this.hiddenWord.contains("_"))
                 data.setGameMode(addSpaces(this.hiddenWord), this.intents);
             else 
-                data.setCongratulation(this.selectedWord, this.intents);
+                data.setCongratulation(this.selectedWord, (this.totalScore++));
         }
         else {
             this.intents--;
@@ -153,7 +155,7 @@ public class ConnectionHandler extends Thread {
         ResponsePacket data = new ResponsePacket();
         System.out.println("Server recived word "+w);
         if (this.selectedWord.equals(w))
-            data.setCongratulation(w, this.intents);
+            data.setCongratulation(w, (this.totalScore++));
         else {
             this.intents--;
             if (this.intents<=0) 
