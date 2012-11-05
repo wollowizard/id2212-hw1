@@ -15,6 +15,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -27,7 +29,7 @@ public class ConnectionHandler extends Thread {
         
     private boolean running;
     private int totalScore;
-    private static final int NUM_WORD_DIC = 50;
+    private int NUM_WORD_DIC = 50;
     private static final int NUM_TRY = 5;
     String selectedWord;
     String hiddenWord;
@@ -39,6 +41,27 @@ public class ConnectionHandler extends Thread {
         this.out=cd.getOut();
         this.running = true;
         this.totalScore = 0;
+        this.NUM_WORD_DIC = countDicWords();
+    }
+    
+    private int countDicWords() {
+        FileInputStream fs;    
+        int i = 0;
+        try {
+            fs = new FileInputStream("files/dictionary.txt");
+            BufferedReader br = new BufferedReader(new InputStreamReader(fs));
+            try {
+                while (br.readLine()!=null)
+                    i++;
+            } catch (IOException ex) {
+                Logger.getLogger(ConnectionHandler.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(ConnectionHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Nº words = "+i);
+        return i;
+        
     }
 
     public void run() {

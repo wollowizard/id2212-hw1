@@ -16,13 +16,16 @@ import java.net.Socket;
  */
 public class Server {
 
+    private static int port = 1234;
+    
     public static void main(String[] args) throws IOException {
         boolean listening = true;
         ServerSocket serverSocket = null;
+        if (args.length>0) port = Integer.parseInt(args[1]);
         try {
-            serverSocket = new ServerSocket(1234);
+            serverSocket = new ServerSocket(port);
         } catch (IOException e) {
-            System.err.println("Could not listen on port: 1234.");
+            System.err.println("Could not listen on port: "+port);
             System.exit(1);
         }
         while (listening) {
