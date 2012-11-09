@@ -21,7 +21,7 @@ public class Server {
     public static void main(String[] args) throws IOException {
         boolean listening = true;
         ServerSocket serverSocket = null;
-        if (args.length>0) port = Integer.parseInt(args[1]);
+        if (args.length>0) port = Integer.parseInt(args[0]);
         try {
             serverSocket = new ServerSocket(port);
         } catch (IOException e) {
